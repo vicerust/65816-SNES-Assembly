@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>asm</string>
+		<string>inc</string>
+	</array>
+	<key>name</key>
+	<string>65816 Assembly</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>comment</key>
+			<string>Comment</string>
+			<key>match</key>
+			<string>;(.)*</string>
+			<key>name</key>
+			<string>comment.line</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Command Seperator</string>
+			<key>match</key>
+			<string>[\s]:[\s]</string>
+			<key>name</key>
+			<string>keyword.xkas.command.concatenate</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>SNES Directives</string>
+			<key>match</key>
+			<string>\b(defaultslot|slotsize|slot|id|name|slowrom|lorom|hirom|cartridgetype|romsize|sramsize|country|licenseecode|version|cop|brk|abort|nmi|irq|reset|irqbrk|semifree|header_off|force|DEFAULTSLOT|SLOTSIZE|SLOT|ID|NAME|SLOWROM|LOROM|HIROM|CARTRIDGETYPE|ROMSIZE|SRAMSIZE|COUNTRY|LICENSEECODE|VERSION|COP|BRK|ABORT|NMI|IRQ|RESET|IRQBRK|SEMIFREE|HEADER_OFF|FORCE)\b</string>
+			<key>name</key>
+			<string>keyword.xkas.snes</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>XKAS Defines</string>
+			<key>match</key>
+			<string>[!].*?(?=[\s])</string>
+			<key>name</key>
+			<string>keyword.xkas.define</string>
+		</dict>
+		<!-- <dict>
+			<key>comment</key>
+			<string>Assembler Directives</string>
+			<key>match</key>
+			<string>^[\s]*\.[a-zA-Z0-9]*\b</string>
+			<key>name</key>
+			<string>entity.name.function.preprocessor</string>
+		</dict> -->
+		<dict>
+			<key>comment</key>
+			<string>Label Reference</string>
+			<key>name</key>
+			<string>xkas.branch.label</string>
+			<key>match</key>
+			<string>\b(BCC|BCS|BEQ|BMI|BNE|BPL|BRA|BRL|BVC|BVS|JMP|JML|JSR|JSL)\b[\s]+([a-zA-Z0-9_\\@]+)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.mnemonic</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>label.xkas.label.reference</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Sub-Label Reference</string>
+			<key>name</key>
+			<string>label.xkas.subbranch.label</string>
+			<key>match</key>
+			<string>\b(BCC|BCS|BEQ|BMI|BNE|BPL|BRA|BRL|BVC|BVS|JMP|JML|JSR|JSL)\b[\s]+([\.][a-zA-Z0-9_\\@]+)</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.mnemonic</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>label.xkas.sublabel.reference</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Mnemonics</string>
+			<key>match</key>
+			<string>\b(adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|bra|brk|brl|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|cop|dc|dec|dex|dey|eor|inc|inx|iny|jmp|jml|jsr|jsl|lda|ldx|ldy|lsr|mvn|mvp|nop|ora|pea|pei|per|pha|phb|phd|phk|php|phx|phy|pla|plb|pld|plp|plx|ply|rep|rol|ror|rti|rts|rtl|sbc|sec|sed|sei|sep|sta|stx|sty|stp|stz|tax|tay|tcd|tcs|tdc|tdc|tdx|txa|txs|txy|tya|tyx|trb|tsb|wai|wdm|xba|xce|ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRA|BRK|BRL|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|COP|DC|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JML|JSR|JSL|LDA|LDX|LDY|LSR|MVN|MVP|NOP|ORA|PEA|PEI|PER|PHA|PHB|PHD|PHK|PHP|PHX|PHY|PLA|PLB|PLD|PLP|PLX|PLY|REP|ROL|ROR|RTI|RTS|RTL|SBC|SEC|SED|SEI|SEP|STA|STX|STY|STP|STZ|TAX|TAY|TCD|TCS|TDC|TDC|TDX|TXA|TXS|TXY|TYA|TYX|TRB|TSB|WAI|WDM|XBA|XCE)(.[b|w|v])?\b</string>
+			<key>name</key>
+			<string>keyword.mnemonic</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Preprocessor</string>
+			<key>match</key>
+			<string>\b(assume|base|cleartable|db|dd|dl|dw|macro|endmacro|export|fill|fillbyte|fsave|header|hirom|import|incbin|incbin_table|incsrc|loadpc|lorom|macro name|namespace|org|pad|padbyte|print|savepc|skip|table|warnpc|ASSUME|BASE|CLEARTABLE|DB|DD|DL|DW|MACRO|ENDMACRO|EXPORT|FILL|FILLBYTE|FSAVE|HEADER|HIROM|IMPORT|INCBIN|INCBIN_TABLE|INCSRC|LOADPC|LOROM|MACRO NAME|NAMESPACE|ORG|PAD|PADBYTE|PRINT|SAVEPC|SKIP|TABLE|WARNPC)\b</string>
+			<key>name</key>
+			<string>keyword.xkas.asm</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Registers</string>
+			<key>match</key>
+			<string>\b(a|x|y|A|X|Y)\b</string>
+			<key>name</key>
+			<string>variable.xkas.storage.register</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Value</string>
+			<key>match</key>
+			<string>[^#]\$[a-fA-F0-9]+</string>
+			<key>name</key>
+			<string>constant.xkas.numeric.address</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Hex Value</string>
+			<key>match</key>
+			<string>#\$[a-fA-F0-9]+</string>
+			<key>name</key>
+			<string>constant.xkas.numeric.hexvalue</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Hex Value</string>
+			<key>match</key>
+			<string>#[0-9]+</string>
+			<key>name</key>
+			<string>constant.xkas.numeric.decvalue</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Hex Value</string>
+			<key>match</key>
+			<string>%[0-1]+</string>
+			<key>name</key>
+			<string>constant.xkas.numeric.binvalue</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Value</string>
+			<key>match</key>
+			<string>\b[0-9]+\b</string>
+			<key>name</key>
+			<string>constant.xkas.numeric.dec</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Label</string>
+			<key>match</key>
+			<string>^[\s]*([a-zA-Z0-9_\\@]*):</string>
+			<key>name</key>
+			<string>label.xkas.label</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Sub-Label</string>
+			<key>match</key>
+			<string>^[\s]*[\.]([a-zA-Z0-9_\\@]*)</string>
+			<key>name</key>
+			<string>label.xkas.sublabel</string>
+		</dict>
+		<!-- <dict>
+			<key>comment</key>
+			<string>Sub-Label Reference</string>
+			<key>match</key>
+			<string>[\.]([a-zA-Z0-9_\\@]*)</string>
+			<key>name</key>
+			<string>label.xkas.sublabel.reference</string>
+		</dict> -->
+		<dict>
+			<key>comment</key>
+			<string>String</string>
+			<key>match</key>
+			<string>"[^"]*"</string>
+			<key>name</key>
+			<string>string.quoted.double</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>String</string>
+			<key>match</key>
+			<string>'[^'']*'</string>
+			<key>name</key>
+			<string>string.quoted.single</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.asm.65816</string>
+	<key>uuid</key>
+	<string>3dd8d751-4598-463e-ac06-194e5a314394</string>
+</dict>
+</plist>
