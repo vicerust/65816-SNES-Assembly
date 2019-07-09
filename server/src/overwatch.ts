@@ -56,7 +56,11 @@ export function hoverHandler(pos: Position, doc: TextDocument): string | MarkupC
 	
 	if (match.match(ramRegExp) != null) {
 		if (match.length == 5) { match = "$7E" + match.substr(1,4); }
-		var ramMatch = RAM.find((r) => r.address == match)
+
+
+		var ramMatch = RAM.find((r) => r.beginsAt <= parseInt("0x" + match.substr(1,6)) && r.endsAt >= parseInt("0x" + match.substr(1,6)))
+
+
 		if(ramMatch) {
 			let markdown: MarkupContent = {
 				kind: MarkupKind.Markdown,
