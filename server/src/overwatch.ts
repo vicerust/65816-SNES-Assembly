@@ -28,6 +28,7 @@ export function getCompletionItems(): CompletionItem[] {
 
 
 export function hoverHandler(pos: Position, doc: TextDocument): string | MarkupContent {
+	console.log("hoverin")
 	var text = doc.getText({
 		start: { line: pos.line, character: 0 },
 		end: { line: pos.line, character: 99999 }
@@ -80,17 +81,73 @@ export function hoverHandler(pos: Position, doc: TextDocument): string | MarkupC
 			return "Could Not Parse RAM Address.";
 		}
 	} else {
-		var r = Opcodes.find((d)=>d.label == match)
-		if(!r) return "";
+		var r = Opcodes.find((d)=>d.label == match);
+		if(r == null) {return ""};
+		var label = r.label;
+
+		var docKey = Object.keys(asm.docs).filter((d) => d.includes(label))[0];
+		//@ts-ignore
+		var docs = asm.docs[docKey]
 
 		if(r.detail) {
 			let markdown: MarkupContent = {
 				kind: MarkupKind.Markdown,
-				value: r.detail
+				value: [
+					r.detail,
+					`\n---`,
+					docs
+				].join(`\n`)
 			};
 			return markdown
 		}
 
 		return r.detail as string
 	}
+}
+
+export function resolveSymbols(uri: string, doc: TextDocument): SymbolInformation[] {
+	var text = doc.getText({
+		start: { line: 0, character: 0 },
+		end: { line: 999999, character: 999999 }
+	})
+
+	var subRoutineRegExp = new RegExp(/^\w*:/gm)
+
+	var matches = []
+	do {
+		var m = subRoutineRegExp.exec(text);
+		if(m==null) break;
+
+		matches.push({
+			match: m[0],
+			index: doc.positionAt(m.index)
+		})
+	} while (m);
+	
+	var Symbols = []
+	var endIndex: Position = {character:999999, line:999999}
+
+	for(var i = 0; i < matches.length; i++) {
+
+		if(matches[i + 2] != undefined) {
+			endIndex = matches[i + 1].index
+		} else {
+			var endIndex: Position = {character:999999, line:999999}
+		}
+		
+		Symbols.push({
+			name: matches[i].match,
+			kind: SymbolKind.Function,
+			location: {
+				range: {
+					start: matches[i].index,
+					end: endIndex
+				},
+				uri: doc.uri
+			}
+		})
+
+	}
+	
+	return Symbols;
 }

@@ -1,4 +1,6 @@
-defaultslot|slotsize|slot|id|name|slowrom|lorom|hirom|cartridgetype|romsize|sramsize|country|licenseecode|version|cop|brk|abort|nmi|irq|reset|irqbrk|semifree|header_off|force|DEFAULTSLOT|SLOTSIZE|SLOT|ID|NAME|SLOWROM|LOROM|HIROM|CARTRIDGETYPE|ROMSIZE|SRAMSIZE|COUNTRY|LICENSEECODE|VERSION|COP|BRK|ABORT|NMI|IRQ|RESET|IRQBRK|SEMIFREE|HEADER_OFF|FORCE
+
+db dw dl dd adc and asl bcc blt bcs bge beq bit bmi bne bpl bra brk brl bvc bvs clc cld cli clv cmp cop cpx cpy dec dea dex dey eor inc ina inx iny jmp jml jsr jsl lda ldx ldy lsr mvn mvp nop ora pea pei per pha phb phd phk php phx phy pla plb pld plp plx ply rep rol ror rti rtl rts sbc sec sed sei sep sta stp stx sty stz tax tay tcd tcs tdc trb tsc tsb tsx txa txs txy tya tyx wai wdm xba xce s x y b w l a r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 r11 r12 r13 r14 r15 add alt1 alt2 alt3 asr bic cache cmode color div2 fmult from getb getbh getbl getbs getc hib ibt iwt ldb ldw link ljmp lm lms lmult lob loop merge mult not or plot ramb romb rpix sbk sex sm sms stb stop stw sub swap to umult with xor addw ya and1 c bbc0 bbc1 bbc2 bbc3 bbc4 bbc5 bbc6 bbc7 bbs0 bbs1 bbs2 bbs3 bbs4 bbs5 bbs6 bbs7 call cbne clr0 clr1 clr2 clr3 clr4 clr5 clr6 clr7 clrc clrp clrv cmpw daa das dbnz decw di div ei eor1 incw mov sp mov1 movw mul not1 notc or1 pcall pop p push ret reti set0 set1 set2 set3 set4 set5 set6 set7 setc setp sleep subw tcall tclr tset xcn lea move moves moveb movew</Keywords>
+
 
 
    "ADC": "Add with Carry"

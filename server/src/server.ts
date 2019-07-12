@@ -19,7 +19,7 @@ import {
 	TextEdit, FormattingOptions, MarkedString, DocumentSymbol, MarkupContent, MarkupKind, DocumentSymbolParams, SymbolKind, SignatureHelp
 } from 'vscode-languageserver-types';
 
-import { getCompletionItems, hoverHandler} from './overwatch'
+import { getCompletionItems, hoverHandler, resolveSymbols} from './overwatch'
 
 const connection: IConnection = createConnection(	
 	new IPCMessageReader(process),
@@ -35,6 +35,7 @@ connection.onInitialize((params): InitializeResult => {
 	  capabilities: {
 		textDocumentSync: documents.syncKind,
 		hoverProvider: true,
+		documentSymbolProvider: true,
 		completionProvider: {
 			resolveProvider: true
 		}
@@ -76,6 +77,14 @@ connection.onHover(
 		}
 	}
 )
+
+connection.onDocumentSymbol((params: DocumentSymbolParams) : SymbolInformation[] => {
+	var doc = documents.get(params.textDocument.uri);
+	if(doc==null) {return []}
+
+	var symbols = resolveSymbols(params.textDocument.uri, doc)
+	return symbols;
+})
 
 documents.listen(connection)
 
