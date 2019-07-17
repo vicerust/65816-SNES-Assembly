@@ -12,14 +12,15 @@ import {
 	Hover,
 	CancellationToken,
 	CompletionParams,
+	CodeLensParams,
 } from 'vscode-languageserver'
 
 import {
 	TextDocument, Position, CompletionList, Range, SymbolInformation, Diagnostic,
-	TextEdit, FormattingOptions, MarkedString, DocumentSymbol, MarkupContent, MarkupKind, DocumentSymbolParams, SymbolKind, SignatureHelp
+	TextEdit, FormattingOptions, MarkedString, DocumentSymbol, MarkupContent, MarkupKind, DocumentSymbolParams, SymbolKind, SignatureHelp, CodeLens, Location, WorkspaceChange
 } from 'vscode-languageserver-types';
 
-import { getCompletionItems, hoverHandler, resolveSymbols} from './overwatch'
+import { getCompletionItems, hoverHandler, resolveSymbols, resolveDefinitions} from './overwatch'
 
 const connection: IConnection = createConnection(	
 	new IPCMessageReader(process),
@@ -38,7 +39,8 @@ connection.onInitialize((params): InitializeResult => {
 		documentSymbolProvider: true,
 		completionProvider: {
 			resolveProvider: true
-		}
+		},
+        definitionProvider : true
 	  }
 	}
 })
@@ -57,6 +59,7 @@ connection.onCompletion(
 		return completionItems;
 	}
 )
+
 
 connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
 	return item;
@@ -78,12 +81,21 @@ connection.onHover(
 	}
 )
 
+
 connection.onDocumentSymbol((params: DocumentSymbolParams) : SymbolInformation[] => {
 	var doc = documents.get(params.textDocument.uri);
 	if(doc==null) {return []}
 
 	var symbols = resolveSymbols(params.textDocument.uri, doc)
 	return symbols;
+})
+
+
+connection.onDefinition((params: TextDocumentPositionParams): Location[] => {
+	var doc = documents.get(params.textDocument.uri);
+	if(doc==null) {return []}
+
+	return resolveDefinitions(params.position, doc);
 })
 
 documents.listen(connection)
