@@ -128,6 +128,7 @@ export function hoverHandler(pos: Position, doc: TextDocument): string | MarkupC
 	
 	if (match.match(ramRegExp) != null) {
 		if (match.length == 5) { match = "$7E" + match.substr(1,4); }
+		else if (match.length == 3) { match = "$7E00" + match.substr(1,2); }
 
 
 		var ramMatch = allMemory.find((r) => r.beginsAt <= parseInt("0x" + match.substr(1,6)) && r.endsAt >= parseInt("0x" + match.substr(1,6)))
